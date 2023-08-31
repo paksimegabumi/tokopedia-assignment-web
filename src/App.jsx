@@ -5,7 +5,9 @@ function App() {
 
   return (
     <>
-      <SearchPage />
+      <div className='col-lg-8 mx-auto p-4 py-md-5'>
+        <SearchPage />
+      </div>
     </>
   )
 }
