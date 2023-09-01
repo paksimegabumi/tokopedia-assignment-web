@@ -7,9 +7,20 @@ const Payment = ({ data }) => {
         return newDateFormat.toLocaleString();
     }
 
+    const formattedAmount = new Intl.NumberFormat('en-ID', {
+        style: 'currency',
+        currency: 'IDR'
+    });
+
     return (
         <>
-            <tr><th scope="row">{id}</th><td>{customer.id}</td> <td>{amount}</td> <td>{dateFormat()}</td> <td>{paymentType.name}</td></tr>
+            <tr>
+                <th scope="row">{id}</th>
+                <td>{customer.name}</td>
+                <td>{formattedAmount.format(amount)}</td>
+                <td>{dateFormat()}</td>
+                <td>{paymentType.name}</td>
+            </tr>
         </>
     )
 }
