@@ -7,8 +7,10 @@ import PaymentList from "./PaymentTable";
 const SearchPage = () => {
     const [data, setData] = useState({});
     const [filter, setFilter] = useState({});
+    const [isFetching, setIsFetching] = useState(false);
 
     const fetchData = async () => {
+        setIsFetching(true);
         const url = `${Constants.BASE_URL}${Constants.PAYMENT_URL}`;
         try {
             const response = await axios.get(url, {
@@ -19,6 +21,8 @@ const SearchPage = () => {
         } catch (error) {
             console.log(error);
         }
+
+        setIsFetching(false);
     }
 
     const onChangePage = (value) => {
@@ -38,11 +42,30 @@ const SearchPage = () => {
         fetchData();
     }, [filter]);
 
+    const showLoading = () => {
+        return (
+            <>
+                <div className="m-3 border-0">
+                    <div className="spinner-grow text-primary"></div>
+                    <div className="spinner-grow text-secondary"></div>
+                    <div className="spinner-grow text-warning"></div>
+                </div>
+            </>
+        );
+    }
+
+    const showData = () => {
+        return (
+            <>
+                <PaymentList data={data} onChangePage={onChangePage} /></>
+        )
+    }
+
     return (
         <>
             <div className="row g-5">
                 <SearchForm onSubmit={onSubmit} />
-                {data.content ? <PaymentList data={data} onChangePage={onChangePage} /> : <div className="col-md-9">No Result</div>}
+                {isFetching ? showLoading() : data.content ? showData() : ''}
             </div>
         </>
     )
